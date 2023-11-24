@@ -1,0 +1,113 @@
+﻿Age,Gender,Location,Sound type,Diagnosis
+70,M,P L L,I E W,Asthma
+52,F,P L L ,E W,Asthma
+50,F,P L L ,I E W,Asthma
+72,F,P R L ,I C,Heart Failure + Lung Fibrosis 
+71,M,P R L ,I C E W,Heart Failure + COPD
+81,M,P R L ,I C B,Plueral Effusion
+65,M,P R L ,I C E W,Heart Failure + COPD
+70,M,P L L,I C B,Plueral Effusion
+59,M,P R L ,E W,Asthma
+59,M,P R U,E W,Asthma
+53,M,P L L,C,Heart Failure
+50,F,P L L,E W,Asthma
+55,M,P L L,C,Heart Failure
+54,M,A R M,C,Heart Failure
+49,F,P R U,E W,Asthma
+56,M,P R U,C,heart failure
+57,M,A R M,E W,COPD
+57,M,P R U,C,pneumonia
+70,F,P R U,C,heart failure
+90,M,A R M,C,Asthma + lung fibrosis
+20,M,P R L ,Crep,BRON
+24,M,P R U,Crep,BRON
+50,M,P R L ,Crep,Lung Fibrosis
+76,F,P R L ,Crep,heart failure
+76,M,P L L,E W,copd
+90,F,P L L,Crep,Lung Fibrosis
+53,F,P R M,E W,asthma
+68,F,P L U,Crep,BRON
+57,M,P L L,Crep,heart failure
+18,F,P R M,N,N
+27,F,P L M,N,N
+30,M,A R L,N,N
+43,F,P R M,E W,Asthma
+78,F,P R M,Crep,heart failure
+38,M,A R L,E W,Asthma
+36,F,P R M,Crep,pneumonia
+70,F,A R L,Crep,pneumonia
+38,M,P R M,E W,Asthma
+67,M,P R L ,Crep,heart failure
+26,M,A R M,Crep,heart failure
+51,M,P R M,Crep,pneumonia
+56,M,P L L,Crep,heart failure
+15,M,P L M,E W,asthma
+40,M,P R U,E W,asthma
+30,M,P R L ,Crep,heart failure
+41,F,P L U,E W,asthma
+60,M,P L M,E W,asthma
+31,M,P L U,N,N
+21,M,P R M,N,N
+27,M,P R L ,N,N
+30,M,P L M,N,N
+76,F,P L L,Crep,Lung Fibrosis
+72,F,P R M,E W,asthma
+73,F,P R L ,Crep,heart failure
+72,F,P R U,E W,asthma
+56,F,P R M,E W,asthma
+42,M,P R L ,E W,COPD
+40,M,P L M,E W,asthma
+83,F,P R L ,Crep,heart failure
+83,F,P L L,Crep,heart failure
+53,M,P R L ,E W,COPD
+53,M,P L M,E W,COPD
+58,F,P R L ,E W,COPD
+60,M,P L U,E W,asthma
+60,F,P R L ,E W,asthma
+43,M,P R L ,Crep,heart failure
+24,F,P R L ,Crep,heart failure
+21,F,P R L ,E W,asthma
+64,M,P R L ,Bronchial,pneumonia
+52,F,P L U,N,N
+36,M,P R U,N,N
+24,F,P R U,N,N
+32,M,P L L,N,N
+74,M,P R M,N,N
+73,F,P L U,N,N
+31,M,A L U,N,N
+40,M,A R L,E W,Asthma
+20,M,P R M,E W,Asthma
+46,M,A R U,E W,asthma
+38,M,A L U,E W,asthma
+33,M,P L U,N,N
+38,M,P L U,N,N
+18,F,A R U,N,N
+65,F,A R U,N,N
+33,M,A R U,N,N
+68,F,P R U,N,N
+72,M,P R M,N,N
+29,M,A R U,N,N
+70,M,P L M,N,N
+74,F,P L M,Crep,heart failure
+43,F,P R U,E W,asthma
+43,M,P L L ,N,N
+75,M,P R M,N,N
+24,M,P L L,N,N
+18,M,P L M,N,N
+66,F,P R L ,N,N
+24,M,P R U,E W,Asthma
+53,M,P L L,N,N
+50,M,P R M,N,N
+70,F,P R M,N,N
+12,F,P L M,E W,Asthma
+41,M,P L L,N,N
+81,F,P R U,N,N
+45,F,P L U,E W,Asthma
+44,M,A R U,Crep,Lung Fibrosis
+45,F,P L U,E W,Asthma
+59,F,P L U,E W,Asthma
+63,M,P R L ,E W,COPD
+26,M,P L M,N,N
+62,M,P L L,E W,COPD
+51,M,P R L ,E W,COPD
+30,M,P L M,N,N

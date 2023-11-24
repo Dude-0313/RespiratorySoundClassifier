@@ -1,0 +1,132 @@
+# Description : Load Respiratory Dataset
+# Date : 11/14/2023 (14)
+# Author : Dude
+# URLs :
+# A dataset of lung sounds recorded from the chest wall using an electronic stethoscope - Mendeley Data
+#  https://data.mendeley.com/datasets/jwyy9np4gv/3
+# Problems / Solutions :
+#
+# Revisions :
+#
+import os
+import random
+import torch
+import numpy as np
+import pandas as pd
+from torch.utils.data import Dataset
+import librosa
+
+MAX_SAMPLE_LENGTH = 30
+
+
+def load_labels(filepath):
+    labels_df = pd.read_csv(filepath, ",")
+    labels_df.insert(
+        loc=0, column="Patient_Number", value=np.arange(len(labels_df)) + 1
+    )
+    row = []
+    lg = len(labels_df)
+    for i in range(lg):
+        label = str(labels_df.loc[i,'Diagnosis'])
+        x = label.find("+")
+        if x != -1:
+            row = labels_df.loc[i].values
+            labels_df.loc[i,'Diagnosis']= label[: x - 1]
+            row[-1] = label[x + 2 :]
+            labels_df.loc[len(labels_df)] = row
+    labels_df = labels_df.sort_values(by="Patient_Number")
+    labels_df["Diagnosis"] = labels_df["Diagnosis"].str.lower()
+    labels_df["Diagnosis"] = labels_df["Diagnosis"].str.strip()
+    maxcnt = labels_df["Diagnosis"].value_counts().max()
+    labels = labels_df["Diagnosis"].unique()
+    labels_map = {label: class_id for class_id, label in enumerate(labels)}
+    for val in labels_map:
+        idxs = []
+        idxs = labels_df.index[labels_df["Diagnosis"] == val].tolist()
+        for i in range(maxcnt - len(idxs)):
+            addidx = random.choice(idxs)
+            labels_df.loc[len(labels_df)] = labels_df.loc[addidx]
+    labels_df = labels_df.sample(frac=1)
+    return labels_df, labels_map
+
+
+def get_features(
+    filepath,
+    sampling_rate=None,
+    n_fft=2048,
+    hop_length=512,
+    n_mels=128,
+    fmin=20,
+    fmax=2100,
+    top_db=80,
+):
+    wav, sampling_rate = librosa.load(filepath, sr=sampling_rate)
+    wav, _ = librosa.effects.trim(wav)
+    while len(wav) < sampling_rate * MAX_SAMPLE_LENGTH:
+        wav = np.pad(
+            wav,
+            int(np.ceil((MAX_SAMPLE_LENGTH * sampling_rate - wav.shape[0]) / 2)),
+            mode="reflect",
+        )
+    wav = wav[: sampling_rate * MAX_SAMPLE_LENGTH]
+    melspec = librosa.feature.melspectrogram(
+        y=wav,
+        sr=sampling_rate,
+        n_fft=n_fft,
+        hop_length=hop_length,
+        n_mels=n_mels,
+        fmin=fmin,
+        fmax=fmax,
+    )
+    # melspec_db = librosa.power_to_db(melspec, top_db=top_db)
+    mfccs = librosa.feature.mfcc(
+        y=wav,
+        sr=sampling_rate,
+        n_mfcc=n_mels,
+        n_fft=n_fft,
+        hop_length=hop_length,
+        n_mels=n_mels,
+        fmin=fmin,
+        fmax=fmax,
+        dct_type=2,
+    )
+    stft = np.abs(librosa.stft(wav, n_fft=255, hop_length=hop_length))
+    image = melspec
+    image = np.dstack((image, mfccs))
+    image = np.dstack((image, stft))
+    image = np.transpose(image, (2, 0, 1))
+    return image
+
+
+class MendeleyLungSounds(Dataset):
+    def __init__(self, data_path, wav_dir, labels_csv, transform=None):
+        self.datapath = data_path
+        self.wav_dir = wav_dir
+        self.labels_csv = labels_csv
+        self.transform = None
+        self.labels = []
+        self.labels_df, self.labels_map = load_labels(
+            os.path.join(data_path, labels_csv)
+        )
+        self.filelist = os.listdir(os.path.join(data_path, wav_dir))
+
+    def __len__(self):
+        return len(self.labels_df)
+
+    def __getitem__(self, idx):
+        item = self.labels_df["Patient_Number"][idx]
+        subs = "EP" + str(item) + "_"
+        filename = "".join(filter(lambda x: subs in x, self.filelist))
+        image = get_features(os.path.join(self.datapath, self.wav_dir, filename))
+        class_idx = self.labels_map[self.labels_df["Diagnosis"][idx]]
+        self.image_shape = image.shape
+        if self.transform:
+            return self.transform(image), class_idx
+        else:
+            return torch.from_numpy(image), torch.tensor([class_idx])
+
+    # def get_classes(self):
+    #     return self.labels_map
+    #
+    # def get_shape(self):
+    #     return self.image_shape
